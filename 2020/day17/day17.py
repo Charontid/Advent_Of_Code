@@ -8,7 +8,7 @@ from copy import copy
 import time
 
 def main():
-    start_time = time.time()
+
 
     data = [
         ".#.",
@@ -16,21 +16,23 @@ def main():
         "###"
     ]
     data = read_input(data=data)
-    print(data)
-    data = read_input()
+    """
+    use the read_input(), to get input-data from sys.stdin
+    """
+    #data = read_input()
 
+    start_time = time.time()
     print("ReflectionCube")
-    cube = ReflectionConway_n_Cube(data, dim=10)
-    #print(len(cube.alive))
+    cube = ReflectionConway_n_Cube(data=data, dim=4)
     cube.simulate(cycles=6)
     print(len(cube.alive))
     end_time = time.time()
     print(end_time - start_time)
 
 
+    start_time = time.time()
     print("RegularCube")
-    cube = Conway_n_Cube(data, dim=10)
-    print(len(cube.alive))
+    cube = Conway_n_Cube(data, dim=4)
     cube.simulate(cycles=6)
     print(len(cube.alive))
     end_time = time.time()
@@ -40,8 +42,6 @@ def main():
 def read_input(data=None):
     if data is None:
         data = sys.stdin.readlines()
-
-    print(data)
     alive = set()
     for i, line in enumerate(data):
         for j, val in enumerate(line.strip()):
@@ -98,10 +98,7 @@ class Conway_n_Cube:
 
 class ReflectionConway_n_Cube:
     """
-    small class to keep track of living cells in Conways Game of life in
-    an n cube.
-    Could be further optimized by using the xy-Hyperplane
-    as a reflection plane, however
+    Kinda depressing: Seems like generating the reflections is slightly slower then the brute force :()
     """
     def __init__(self, data, dim=3):
         self.dim = dim
